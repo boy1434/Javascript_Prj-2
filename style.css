@@ -42,3 +42,21 @@ body{
     padding: 1em;
 }
 
+.task-done{
+    text-decoration: line-through;
+}
+
+.checkBtn{
+    background-color: #a3ffac;
+}
+.checkBtn:hover{
+    background-color: #77dd77;
+}
+
+.returnBtn{
+    background-color: #bdbfbf;
+}
+.returnBtn:hover{
+    background-color: #888a8a;
+}
+
