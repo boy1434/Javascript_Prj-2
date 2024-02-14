@@ -9,16 +9,25 @@
 
 let taskInput = document.getElementById("task-input");
 let addBtn = document.getElementById("add-btn");
+let tabs = document.querySelectorAll(".task-tabs div");
 let taskList = [];
+let tabsMode = 'all';
+let filterList = [];
+
+for(let i=1; i<tabs.length; i++){
+    tabs[i].addEventListener("click", function(e) {
+        filter(e)})
+}
+
 
 
 addBtn.addEventListener("click", addTask);
 
 
 // + 버튼을 눌렀을때 값이 저장??? 되는 곳?!
-function addTask() {
+function addTask(e) {
     
-    
+    e.preventDefault();
 
     let task = {
         id:randomIDGenerate(),
@@ -32,7 +41,7 @@ function addTask() {
     } else{
 
         taskList.push(task);
-        console.log(taskList);
+        
         render();
         taskInput.value='';
     }
@@ -41,25 +50,34 @@ function addTask() {
 
 
 
+
 // 플러스 버튼을 눌렀을때 보여지는 곳
 function render(){
+    let list = [];
+    // 내가 선택한 탭에 따라서 리스트를 다르게 보여준다.
+    if(tabsMode ==="all"){
+        // all taskList
+        list = taskList;
+    }else if(tabsMode === "ongoing" || tabsMode === "done"){
+        list = filterList;
+    } 
     let resultHTML = '';
-    for(let i=0; i<taskList.length; i++){
+    for(let i=0; i<list.length; i++){
 
-        if(taskList[i].isComplete == true){
-            resultHTML += `<div class="task">
-            <div class="task-done">${taskList[i].taskContent}</div>
+        if(list[i].isComplete == true){
+            resultHTML += `<div class="task-return">
+            <div class="task-done">${list[i].taskContent}</div>
             <div>
-                <button class="returnBtn" onclick="returnBtn('${taskList[i].id}')"><i class="fa-solid fa-arrow-rotate-left"></i></button>
-                <button class="deleteBtn" onclick="deleteBtn('${taskList[i].id}')"><i class="fa-solid fa-trash-can"></i></button>
+                <button class="returnBtn" onclick="returnBtn('${list[i].id}')"><i class="fa-solid fa-arrow-rotate-left"></i></button>
+                <button class="deleteBtn" onclick="deleteBtn('${list[i].id}')"><i class="fa-solid fa-trash-can"></i></button>
             </div>
         </div>`
-        } else if(taskList[i].isComplete == false){ 
+        } else if(list[i].isComplete == false){ 
             resultHTML += `<div class="task">
-        <div>${taskList[i].taskContent}</div>
+        <div>${list[i].taskContent}</div>
         <div>
-            <button class="checkBtn" onclick="checkBtn('${taskList[i].id}')"><i class="fa-solid fa-check"></i></button>
-            <button class="deleteBtn" onclick="deleteBtn('${taskList[i].id}')"><i class="fa-solid fa-trash-can"></i></button>
+            <button class="checkBtn" onclick="checkBtn('${list[i].id}')"><i class="fa-solid fa-check"></i></button>
+            <button class="deleteBtn" onclick="deleteBtn('${list[i].id}')"><i class="fa-solid fa-trash-can"></i></button>
         </div>
     </div>`;
         }
@@ -81,9 +99,34 @@ function deleteBtn(id) {
     render();
 }
 
+function filter(e){
+     tabsMode = e.target.id;
+     filterList = [];
+
+        if(tabsMode === "all"){
+        render();
+    } else if (tabsMode ==="ongoing"){
+        // 진행중인 아이템
+        // task.isComplete = false
+        for(let i=0; i<taskList.length; i++){
+            if (taskList[i].isComplete === false){
+                filterList.push(taskList[i])
+            }
+        }
+        
+        render();
+    } else if(tabsMode === "done"){
+        for(let i=0; i<taskList.length; i++){
+            if (taskList[i].isComplete === true){
+                filterList.push(taskList[i])
+            }
+            render();
+        }
+    }
+}
 
 function returnBtn(id){
-    console.log('id:,',id)
+    
     for(let i=0; i<taskList.length; i++){
         if(taskList[i].id == id){
             taskList[i].isComplete = false;
@@ -92,20 +135,21 @@ function returnBtn(id){
     }
     
     render();
-    console.log(taskList);
+    
 }
 
 function checkBtn(id){
-    console.log('id:,',id)
+    
     for(let i=0; i<taskList.length; i++){
         if(taskList[i].id == id){
             taskList[i].isComplete = true;
             break;
         }
+        
     }
     
     render();
-    console.log(taskList);
+    
 }
 
 function randomIDGenerate(){

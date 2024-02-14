@@ -3,14 +3,22 @@ body{
     background-image: url("image/background_Img.1.avif");
     background-repeat: no-repeat;
     background-size: cover;
-    
+    padding: 50px;
 }
 
 .container{
     background-color: white;
     min-height: 100vh;
-    opacity: 0.7;
+    opacity: 0.6;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    border-radius: 10px;
+}
+
+.input-area{
+    margin: 8px;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
 }
 
 .task-area{
@@ -43,13 +51,30 @@ body{
     border-bottom: 1px solid skyblue;
 }
 
+
+
 .task-board{
     border: 1px solid red;
+}
+
+.task-return{
+    background-color: #888a8a;
+    display: flex;
+    justify-content: space-between;
+    padding: 1em;
+    border-bottom: 1px solid skyblue;
 }
 
 .task-done{
     text-decoration: line-through;
     
+}
+
+#task-input{
+    padding: 5px;
+    border-radius: 7px;
+    
+    border: 0.5;
 }
 
 .checkBtn{
@@ -73,5 +98,21 @@ body{
     background-color: #d1052a;
 }
 
+.task-tabs div{
+    cursor: pointer;
+}
+
+#add-btn{
+    border-radius: 9px;
+    border: 0;
+    background-color: #d3bcf6;
+    font-family: fantasy;
+    text-align: center;
+    padding-top: 5px;
+}
+
+#add-btn:hover{
+    background-color: #bc98f3;
+}
 
 
