@@ -40,10 +40,16 @@ body{
     display: flex;
     justify-content: space-between;
     padding: 1em;
+    border-bottom: 1px solid skyblue;
+}
+
+.task-board{
+    border: 1px solid red;
 }
 
 .task-done{
     text-decoration: line-through;
+    
 }
 
 .checkBtn{
@@ -59,4 +65,13 @@ body{
 .returnBtn:hover{
     background-color: #888a8a;
 }
+
+.deleteBtn{
+    background-color: #f45572;
+}
+.deleteBtn:hover{
+    background-color: #d1052a;
+}
+
+
 

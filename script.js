@@ -11,19 +11,35 @@ let taskInput = document.getElementById("task-input");
 let addBtn = document.getElementById("add-btn");
 let taskList = [];
 
+
 addBtn.addEventListener("click", addTask);
+
 
 // + 버튼을 눌렀을때 값이 저장??? 되는 곳?!
 function addTask() {
+    
+    
+
     let task = {
         id:randomIDGenerate(),
         taskContent: taskInput.value,
         isComplete:false,
     }
-    taskList.push(task);
-    console.log(taskList);
-    render();
+    if(task.taskContent == ""){
+        alert("내용을 입력해주세요");
+        // 경고창 띄운 후 커서를 input 창으로 이동
+        taskInput.focus();
+    } else{
+
+        taskList.push(task);
+        console.log(taskList);
+        render();
+        taskInput.value='';
+    }
+    
 }
+
+
 
 // 플러스 버튼을 눌렀을때 보여지는 곳
 function render(){
@@ -35,15 +51,15 @@ function render(){
             <div class="task-done">${taskList[i].taskContent}</div>
             <div>
                 <button class="returnBtn" onclick="returnBtn('${taskList[i].id}')"><i class="fa-solid fa-arrow-rotate-left"></i></button>
-                <button >delete</button>
+                <button class="deleteBtn" onclick="deleteBtn('${taskList[i].id}')"><i class="fa-solid fa-trash-can"></i></button>
             </div>
         </div>`
         } else if(taskList[i].isComplete == false){ 
             resultHTML += `<div class="task">
         <div>${taskList[i].taskContent}</div>
         <div>
-            <button class="checkBtn"onclick="checkBtn('${taskList[i].id}')"><i class="fa-solid fa-check"></i></button>
-            <button >delete</button>
+            <button class="checkBtn" onclick="checkBtn('${taskList[i].id}')"><i class="fa-solid fa-check"></i></button>
+            <button class="deleteBtn" onclick="deleteBtn('${taskList[i].id}')"><i class="fa-solid fa-trash-can"></i></button>
         </div>
     </div>`;
         }
@@ -54,6 +70,17 @@ function render(){
     document.getElementById("task-board").innerHTML = resultHTML;
     
 }
+
+function deleteBtn(id) {
+    for(let i=0; i<taskList.length; i++){
+        if(taskList[i].id == id){
+            taskList.splice(i,1);
+            break;
+        }
+    }
+    render();
+}
+
 
 function returnBtn(id){
     console.log('id:,',id)
