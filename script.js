@@ -6,13 +6,24 @@
 // 진행중 끝남 탭을 누르면 언더바가 이동한다
 // 끝난탭은 끝난 아이템만, 진행중ㄷ 탭은 진행중 아이템만
 // 전체ㅐㅂ을 누르면 다시 전체아이템으로 돌아옴
-
+let
+ underLine = document.getElementById("under-line");
 let taskInput = document.getElementById("task-input");
 let addBtn = document.getElementById("add-btn");
 let tabs = document.querySelectorAll(".task-tabs div");
 let taskList = [];
 let tabsMode = 'all';
 let filterList = [];
+
+tabs.forEach(menu=>menu.addEventListener("click", (e)=>moveBar(e)));
+
+function moveBar(e){
+    underLine.style.left = e.currentTarget.offsetLeft+"px";
+    underLine.style.width = e.currentTarget.offsetWidth+"px";
+    underLine.style.top = e.currentTarget.offsetTop+ e.currentTarget.offsetHeight+ -20+"px";
+}
+
+
 
 for(let i=1; i<tabs.length; i++){
     tabs[i].addEventListener("click", function(e) {
@@ -24,7 +35,7 @@ for(let i=1; i<tabs.length; i++){
 addBtn.addEventListener("click", addTask);
 
 
-// + 버튼을 눌렀을때 값이 저장??? 되는 곳?!
+// + 버튼을 눌렀을때 값을 추가!
 function addTask(e) {
     
     e.preventDefault();
