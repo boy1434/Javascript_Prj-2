@@ -15,6 +15,7 @@ let taskList = [];
 let tabsMode = 'all';
 let filterList = [];
 
+
 tabs.forEach(menu=>menu.addEventListener("click", (e)=>moveBar(e)));
 
 function moveBar(e){
@@ -69,28 +70,47 @@ function render(){
     if(tabsMode ==="all"){
         // all taskList
         list = taskList;
-    }else if(tabsMode === "ongoing" || tabsMode === "done"){
+    }else if(tabsMode === "ongoing" ){
         list = filterList;
-    } 
+    } else if (tabsMode === "done"){
+        list = filterList;
+    }
     let resultHTML = '';
     for(let i=0; i<list.length; i++){
 
-        if(list[i].isComplete == true){
-            resultHTML += `<div class="task-return">
-            <div class="task-done">${list[i].taskContent}</div>
-            <div>
-                <button class="returnBtn" onclick="returnBtn('${list[i].id}')"><i class="fa-solid fa-arrow-rotate-left"></i></button>
-                <button class="deleteBtn" onclick="deleteBtn('${list[i].id}')"><i class="fa-solid fa-trash-can"></i></button>
-            </div>
-        </div>`
-        } else if(list[i].isComplete == false){ 
+        if(list.isComplete == false) {
             resultHTML += `<div class="task">
         <div>${list[i].taskContent}</div>
         <div>
             <button class="checkBtn" onclick="checkBtn('${list[i].id}')"><i class="fa-solid fa-check"></i></button>
             <button class="deleteBtn" onclick="deleteBtn('${list[i].id}')"><i class="fa-solid fa-trash-can"></i></button>
         </div>
-    </div>`;
+    </div>`
+        } else if(list[i].isComplete == true) {
+            
+        }
+
+        if(tabsMode === "done"){
+            
+            if(list[i].isComplete == true || tabsMode === "all"){
+                resultHTML += `<div class="task-return">
+                <div class="task-done">${list[i].taskContent}</div>
+                <div>
+                    <button class="returnBtn" onclick="returnBtn('${list[i].id}')"><i class="fa-solid fa-arrow-rotate-left"></i></button>
+                    <button class="deleteBtn" onclick="deleteBtn('${list[i].id}')"><i class="fa-solid fa-trash-can"></i></button>
+                </div>
+            </div>`
+            }  
+        } else if(tabsMode === "ongoing" || tabsMode === "all"){
+            if(list[i].isComplete == false){
+                resultHTML += `<div class="task">
+            <div>${list[i].taskContent}</div>
+            <div>
+                <button class="checkBtn" onclick="checkBtn('${list[i].id}')"><i class="fa-solid fa-check"></i></button>
+                <button class="deleteBtn" onclick="deleteBtn('${list[i].id}')"><i class="fa-solid fa-trash-can"></i></button>
+            </div>
+        </div>`;
+            }
         }
 
         
@@ -99,6 +119,8 @@ function render(){
     document.getElementById("task-board").innerHTML = resultHTML;
     
 }
+
+
 
 function deleteBtn(id) {
     for(let i=0; i<taskList.length; i++){
@@ -111,9 +133,10 @@ function deleteBtn(id) {
 }
 
 function filter(e){
+    
      tabsMode = e.target.id;
      filterList = [];
-
+     
         if(tabsMode === "all"){
         render();
     } else if (tabsMode ==="ongoing"){
@@ -125,15 +148,17 @@ function filter(e){
             }
         }
         
-        render();
+        
     } else if(tabsMode === "done"){
         for(let i=0; i<taskList.length; i++){
             if (taskList[i].isComplete === true){
                 filterList.push(taskList[i])
             }
-            render();
+            
+            
         }
     }
+    render();
 }
 
 function returnBtn(id){
