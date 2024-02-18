@@ -54,9 +54,9 @@ function addTask(e) {
 
         taskList.push(task);
         
-        render();
         taskInput.value='';
     }
+    filter(e);
     
 }
 
@@ -77,31 +77,27 @@ function render(){
     }
     let resultHTML = '';
     for(let i=0; i<list.length; i++){
-
-        if(list.isComplete == false) {
-            resultHTML += `<div class="task">
-        <div>${list[i].taskContent}</div>
-        <div>
-            <button class="checkBtn" onclick="checkBtn('${list[i].id}')"><i class="fa-solid fa-check"></i></button>
-            <button class="deleteBtn" onclick="deleteBtn('${list[i].id}')"><i class="fa-solid fa-trash-can"></i></button>
-        </div>
-    </div>`
-        } else if(list[i].isComplete == true) {
-            
-        }
-
-        if(tabsMode === "done"){
-            
-            if(list[i].isComplete == true || tabsMode === "all"){
-                resultHTML += `<div class="task-return">
+       if(tabsMode === "all"){
+         if(list[i].isComplete == true ){
+            resultHTML += `<div class="task-return">
                 <div class="task-done">${list[i].taskContent}</div>
                 <div>
                     <button class="returnBtn" onclick="returnBtn('${list[i].id}')"><i class="fa-solid fa-arrow-rotate-left"></i></button>
                     <button class="deleteBtn" onclick="deleteBtn('${list[i].id}')"><i class="fa-solid fa-trash-can"></i></button>
                 </div>
             </div>`
-            }  
-        } else if(tabsMode === "ongoing" || tabsMode === "all"){
+         } else if(list[i].isComplete == false){
+            resultHTML += `<div class="task">
+            <div>${list[i].taskContent}</div>
+            <div>
+                <button class="checkBtn" onclick="checkBtn('${list[i].id}')"><i class="fa-solid fa-check"></i></button>
+                <button class="deleteBtn" onclick="deleteBtn('${list[i].id}')"><i class="fa-solid fa-trash-can"></i></button>
+            </div>
+        </div>`;
+         }
+       }
+        
+       else if(tabsMode === "ongoing" || tabsMode === "all"){
             if(list[i].isComplete == false){
                 resultHTML += `<div class="task">
             <div>${list[i].taskContent}</div>
@@ -113,6 +109,19 @@ function render(){
             }
         }
 
+        else if(tabsMode === "done" || tabsMode === "all"){
+            
+            if(list[i].isComplete == true || tabsMode === "all"){
+                resultHTML += `<div class="task-return">
+                <div class="task-done">${list[i].taskContent}</div>
+                <div>
+                    <button class="returnBtn" onclick="returnBtn('${list[i].id}')"><i class="fa-solid fa-arrow-rotate-left"></i></button>
+                    <button class="deleteBtn" onclick="deleteBtn('${list[i].id}')"><i class="fa-solid fa-trash-can"></i></button>
+                </div>
+            </div>`
+            }  
+        } 
+
         
     }
     
@@ -123,9 +132,9 @@ function render(){
 
 
 function deleteBtn(id) {
-    for(let i=0; i<taskList.length; i++){
-        if(taskList[i].id == id){
-            taskList.splice(i,1);
+    for(let i=0; i<filterList.length; i++){
+        if(filterList[i].id == id){
+            filterList.splice(i,1);
             break;
         }
     }
@@ -137,7 +146,8 @@ function filter(e){
      tabsMode = e.target.id;
      filterList = [];
      
-        if(tabsMode === "all"){
+        if(tabsMode === "all" ){
+            
         render();
     } else if (tabsMode ==="ongoing"){
         // 진행중인 아이템
@@ -146,8 +156,8 @@ function filter(e){
             if (taskList[i].isComplete === false){
                 filterList.push(taskList[i])
             }
+            render();
         }
-        
         
     } else if(tabsMode === "done"){
         for(let i=0; i<taskList.length; i++){
@@ -156,9 +166,9 @@ function filter(e){
             }
             
             
+            render();
         }
     }
-    render();
 }
 
 function returnBtn(id){
