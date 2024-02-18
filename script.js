@@ -56,7 +56,7 @@ function addTask(e) {
         
         taskInput.value='';
     }
-    filter(e);
+    render();
     
 }
 
@@ -132,18 +132,23 @@ function render(){
 
 
 function deleteBtn(id) {
-    for(let i=0; i<filterList.length; i++){
-        if(filterList[i].id == id){
-            filterList.splice(i,1);
-            break;
-        }
-    }
-    render();
-}
-
-function filter(e){
     
-     tabsMode = e.target.id;
+    
+    for(let i=0; i<taskList.length; i++){
+        if(taskList[i].id == id){
+            taskList.splice(i,1);
+            break;
+            
+        }
+    } 
+    
+    render();
+    }
+
+
+function filter(event){
+    
+     tabsMode = event.target.id;
      filterList = [];
      
         if(tabsMode === "all" ){
@@ -156,8 +161,8 @@ function filter(e){
             if (taskList[i].isComplete === false){
                 filterList.push(taskList[i])
             }
-            render();
         }
+        render();
         
     } else if(tabsMode === "done"){
         for(let i=0; i<taskList.length; i++){
@@ -166,8 +171,8 @@ function filter(e){
             }
             
             
-            render();
         }
+        render();
     }
 }
 
